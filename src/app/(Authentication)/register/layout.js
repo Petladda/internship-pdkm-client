@@ -1,5 +1,5 @@
 const RegisterLayout = ({ children }) => {
-  return <section className="bg-danger h-screen">{children}</section>;
+  return <section className="bg-white h-screen ">{children}</section>;
 };
 
 export default RegisterLayout;

@@ -1,20 +1,37 @@
 "use client";
 
-import { useState, createContext } from "react";
+import { Imprima } from "next/font/google";
+import { useState, createContext,useEffect ,useContext} from "react";
 
-const initialState = {
-  first: 0,
-};
+import {liff} from '@line/liff'
+
+
 
 export const LineLiffContext = createContext({
-  first: initialState,
+  liffObject: []
 });
 
 export const LineliffContextProvider = ({ children }) => {
-  const [first, setfirst] = useState();
+  const [liffObject, setLiffObject] = useState();
+  
+  const initialLineLiff = async() =>{
+    liff.init({liffId:'1661154757-WJvw9kP6'
+    }).then(()=>{
+      setLiffObject(liff)
+    })
+    
+}
+// console.log("lineliff : ",liffObject);
+
+useEffect(()=>{
+  initialLineLiff()
+},[])
+
   return (
-    <LineLiffContext.Provider value={{ first }}>
+    <LineLiffContext.Provider value={{ liffObject }}>
       {children}
     </LineLiffContext.Provider>
   );
 };
+
+export const useLineLiff = () => useContext(LineLiffContext)

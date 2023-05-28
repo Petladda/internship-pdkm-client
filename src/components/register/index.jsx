@@ -90,7 +90,7 @@ const RegisterForm = () =>{
                     </div>
                     <div >
                         <p className="mb-3 mt-4">ตำแหน่ง</p>
-                        <select className="border rounded-lg w-full  h-12 px-5 my-">
+                        <select className="border rounded-lg w-full  h-12 px-5 ">
                             <option>UI</option>
                             <option>UI</option>
                             <option>UI</option>
@@ -106,7 +106,7 @@ const RegisterForm = () =>{
                     </div>
                         {errors.checkbox && <p  role="alert" className=" text-red-500 mb-2 pl-3 ">{errors.checkbox?.message}</p>}
                    
-                   <Button/>
+                   <Button disabled={true} />
                     <div className="font-medium text-center mb-5">
                         <p className="mt-4  text-mid-grey">การสร้างบัญชีหรือการเข้าใช้งาน หมายถึงคุณได้อ่านและยอมรับ</p>
                         <p>เงื่อนไขข้อกำหนด <span className="text-mid-grey">และ</span> นโยบายความเป็นส่วนตัว</p>

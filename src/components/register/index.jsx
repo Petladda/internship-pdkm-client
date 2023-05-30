@@ -5,6 +5,9 @@ import { useLineLiff } from "@/app/context/lineliff.context";
 import Button from "../shared/button";
 import { useForm } from "react-hook-form";
 import Select from "react-select"
+import axios from "axios";
+import Swal from "sweetalert2";
+
 
 const RegisterForm = () =>{
     
@@ -16,7 +19,7 @@ const RegisterForm = () =>{
         { value: '1', label: 'PDKM' },
         { value: '2', label: 'DAY WORK' },
         { value: '3', label: 'DEEPLOY' },
-        { value: '4', label: 'NEST8' },
+        { value: '4', label: 'NEXTATE' },
         { value: '5', label: 'OURPOINT' },
     ]
 
@@ -47,13 +50,14 @@ const RegisterForm = () =>{
 
     ]
 
+   
 
 
     const login = ()=>{
         if (liffObject.isLoggedIn()) {
             console.log("login success!!!");
         }else{
-            liffObject.login()
+            // liffObject.login()
         }
     }
     
@@ -64,9 +68,18 @@ const RegisterForm = () =>{
     // console.log("profileUser:" ,profileUser);
 
 
-    const isSubmit = (data)=>{
+    const handleRegisterSubmit = async(data)=>{
         console.log("isdisabled",data);
-        
+        try {
+            const response = await axios.post('http://localhost:8080/v1/auth/user/register',data)
+        } catch (error) {
+            Swal.fire({
+            icon: "warning",
+            title: "กรุณากรอกข้อมูลให้ครบถ้วน",
+            showConfirmButton: false,
+            })
+        }      
+    
     }
 
     const sexTypeSelect = (e)=>{
@@ -103,7 +116,7 @@ const RegisterForm = () =>{
 
     return(
         <>
-            <form onSubmit={handleSubmit(isSubmit)} className="flex flex-col w-96  border mx-auto rounded-lg my-8 shadow-md mb-28"> 
+            <form onSubmit={handleSubmit(handleRegisterSubmit)} className="flex flex-col w-96  border mx-auto rounded-lg my-8 shadow-md "> 
                 <div className="flex flex-col mx-5 my-6 ">
                     <label className="after:content-['*'] after:ml-0.5 after:text-red-500 mb-2 ">ชื่อจริง </label>
                     <input placeholder="ชื่อจริง" className="border rounded-lg  h-12 px-5 " {...register("first_name",{required: "* กรุณากรอกข้อมูล"})} aria-invalid={errors.first_name? "true":"false"}></input>
@@ -119,7 +132,7 @@ const RegisterForm = () =>{
                     
                     <div className="mt-4">
                         <label className="after:content-['*'] after:ml-0.5 after:text-red-500 mb-2 ">เพศ </label>
-                        <fieldset className="flex flex-row mb-4 justify-evenly ">
+                        <fieldset className="flex flex-row mb-1 justify-evenly ">
                             <input id="female"  type="radio" name="status" className="accent-green-600 "
                             {...register("sex",{required: "* กรุณากรอกข้อมูล"})} aria-checked={errors.sex? "true":"false"}
                             value="หญิง"
@@ -151,7 +164,7 @@ const RegisterForm = () =>{
                     </div>
 
                     <div  >
-                        <p className="mb-3">ทีม</p>                     
+                        <p className="mb-3 mt-3">ทีม</p>                     
                             <Select 
                             options={team_id}
                             checked={getValues()}
@@ -174,7 +187,7 @@ const RegisterForm = () =>{
                     </div>
                         {errors.checkbox && <p  role="alert" className=" text-red-500 mb-2 pl-3 ">{errors.checkbox?.message}</p>}
                    
-                   <Button disabled={errors.checkbox} isSubmit={isSubmit} title="ยืนยัน" color="secondary"/>
+                   <Button disabled={errors.checkbox} onClick={handleRegisterSubmit} title="ยืนยัน" color="secondary"/>
                     <div className="font-medium text-center mb-5">
                         <p className="mt-4  text-mid-grey">การสร้างบัญชีหรือการเข้าใช้งาน หมายถึงคุณได้อ่านและยอมรับ</p>
                         <p>เงื่อนไขข้อกำหนด <span className="text-mid-grey">และ</span> นโยบายความเป็นส่วนตัว</p>
@@ -185,6 +198,7 @@ const RegisterForm = () =>{
                     
                 
             </form>
+           
         </>
     )
 }

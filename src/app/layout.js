@@ -17,7 +17,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={sarabun.className}>
-        <LineliffContextProvider>{children}</LineliffContextProvider>
+        <LineliffContextProvider>
+          {children}
+        </LineliffContextProvider>
       </body>
     </html>
   );

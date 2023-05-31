@@ -11,8 +11,7 @@ import Swal from "sweetalert2";
 
 const RegisterForm = () =>{
     
-    const {liffObject} = useLineLiff() 
-    const [profileUser,setProfileUser]= useState()
+    const {liffObject,profileUser} = useLineLiff() 
     const {register,formState:{errors},handleSubmit,setValue,getValues,clearErrors,reset} = useForm()
     
     const team_id = [
@@ -57,15 +56,10 @@ const RegisterForm = () =>{
         if (liffObject.isLoggedIn()) {
             console.log("login success!!!");
         }else{
-            // liffObject.login()
+            liffObject.login()
         }
     }
     
-    const profile = async()=>{
-        const profileUser = await liffObject.getProfile()
-        setProfileUser(profileUser)
-    }
-    // console.log("profileUser:" ,profileUser);
 
 
     const handleRegisterSubmit = async(data)=>{
@@ -101,7 +95,6 @@ const RegisterForm = () =>{
         if (liffObject) {
             liffObject.ready.then(()=>{
                 login()
-                profile()
             })
         }
     },[liffObject])
